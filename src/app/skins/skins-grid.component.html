@@ -1,0 +1,113 @@
+<div class="essence-badge" title="Total cost">
+  <span class="essence-icon"></span>
+  <span class="essence-value">{{ totalWantedEssences }}</span>
+</div>
+
+
+<div class="header">
+  <div>
+  <div class="search-container">
+  <input type="text"
+         placeholder="Search Champions..."
+         [(ngModel)]="searchTerm"
+         class="search-input">
+    <select [(ngModel)]="rarityFilter" class="rarity-select">
+      @for (rarity of rarities; track rarity) {
+        <option [value]="rarity === 'All' ? '' : rarity">{{ rarity }}</option>
+      }
+    </select>
+  </div>
+    <div class="result-count" aria-live="polite">
+      {{ filteredSkins.length }} Skinshards
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  @for (skin of filteredSkins; track skin.id) {
+    <div class="card" [class.wanted]="skin.wanted">
+      <div class="img-wrapper">
+        @if (skin.imageUrl) {
+          <img [src]="'http://localhost:8080' + skin.imageUrl" [alt]="skin.itemName || skin.championName" (click)="openModal(skin.imageUrl, skin)"/>
+        } @else {
+          <div class="placeholder">no image</div>
+        }
+      </div>
+
+      <div class="info">
+        <h3>{{ skin.itemName || 'Skin' }}</h3>
+        <p class="champion">{{ skin.championName }}</p>
+        <p class="rarity">{{ skin.rarity }}</p>
+
+        <div class="values">
+          @if (skin.disenchantValue) {
+            <span>DE: {{ skin.disenchantValue }}</span>
+          }
+          @if (skin.upgradeEssenceValue) {
+            <span>UP: {{ skin.upgradeEssenceValue }}</span>
+          }
+          @if (skin.value) {
+            <span>VAL: {{ skin.value }}</span>
+          }
+        </div>
+      </div>
+
+      <button type="button" (click)="toggleWanted(skin)">
+        Want to buy
+      </button>
+    </div>
+  }
+</div>
+
+
+@if (isModalOpen && selectedImageUrl) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-button" (click)="closeModal()">X</button>
+
+      <div class="image-header">
+        <h2>{{ selectedSkin?.itemName || 'Skin' }}</h2>
+        <p class="rarity"
+           [ngClass]="{
+             'rarity-legendary': (selectedSkin?.rarity || '').toUpperCase() === 'LEGENDARY',
+             'rarity-epic': (selectedSkin?.rarity || '').toUpperCase() === 'EPIC',
+             'rarity-default': (selectedSkin?.rarity || '').toUpperCase() === 'DEFAULT'
+           }">
+          {{ selectedSkin?.rarity }}
+        </p>
+        <div class="img-wrapper">
+          <button class="nav-arrow nav-left" type="button" (click)="prevSkin()" aria-label="Prev">
+            ‹
+          </button>
+          <button class="nav-arrow nav-right" type="button" (click)="nextSkin()" aria-label="Next">
+            ›
+          </button>
+          <img [src]="selectedImageUrl" alt="Vergrößertes Bild" class="modal-image">
+        </div>
+
+      </div>
+
+
+      <div class="video-actions">
+        <button class="video-play" type="button" (click)="playSpotlight()" [disabled]="!selectedSkin">
+          Load video
+        </button>
+
+      </div>
+
+      @if (youtubeUrl) {
+        <div class="video-embed">
+          <iframe
+            width="560"
+            height="315"
+            [src]="youtubeUrl"
+            title="Skin Spotlight"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      }
+    </div>
+  </div>
+}

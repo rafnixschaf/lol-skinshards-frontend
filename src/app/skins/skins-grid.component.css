@@ -1,0 +1,425 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.header {
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  background: #1f2937;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transition: transform .15s ease-in-out, box-shadow .15s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+.card.wanted {
+  border-color: #10b981;
+  box-shadow: 0 0 0 1px rgba(16,185,129,0.35);
+}
+
+.img-wrapper {
+  width: 100%;
+  height: 120px;
+  background: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.img-wrapper img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  color: #9ca3af;
+  font-size: 0.8rem;
+}
+
+.info {
+  padding: 0.75rem 0.75rem 0;
+  flex: 1;
+}
+
+.info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.info .champion {
+  margin: 0;
+  color: #d1d5db;
+  font-size: 0.85rem;
+}
+
+.info .rarity {
+  margin: 0.25rem 0 0.35rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: #fbbf24;
+}
+
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  color: #e5e7eb;
+  margin-bottom: 0.75rem;
+}
+
+.values span {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 9999px;
+  padding: 2px 6px;
+}
+
+button {
+  border: none;
+  background: #374151;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background .1s ease-in;
+  font-size: 0.8rem;
+}
+
+.card.wanted button {
+  background: #10b981;
+}
+
+button:hover {
+  background: #4b5563;
+}
+
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: black;
+}
+
+/* Styling für das Modalfenster */
+
+.modal-overlay {
+  /* Positioniert das Modal über allem */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Semi-transparenter Hintergrund */
+  background-color: rgba(0, 0, 0, 0.9);
+
+  /* Zentriert den Inhalt */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* Stellt sicher, dass es über anderen Elementen liegt */
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+
+  /* Verhindert, dass das Klicken auf das Bild das Modal schließt */
+  max-width: 90%;
+  max-height: 90%;
+  height: 100%;
+
+  /* Optional: Leichter Schatten und abgerundete Ecken */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-image {
+  /* Bild im Modal: Füllt den verfügbaren Platz aus */
+  display: block;
+  max-width: 100%;
+  max-height: 100vh; /* Passt die Höhe an den Viewport an */
+  object-fit: contain;
+}
+
+.close-button {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1001; /* Über dem Bild */
+  opacity: 0.8;
+  padding: 5px 10px;
+  border-radius: 50%;
+  line-height: 1;
+  background-color: #4b5563;
+  transition: opacity 0.2s;
+
+}
+
+.close-button:hover {
+  opacity: 1;
+}
+
+/* 💡 Neu: Container für die Zentrierung */
+.search-container {
+  display: flex;
+  justify-content: center; /* Zentriert das Input horizontal */
+  padding: 1rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.search-input {
+  /* 💡 Größe und Schriftart angepasst */
+  padding: 0.75rem 1.5rem; /* Größerer Padding */
+  font-size: 1.1rem; /* Größere Schrift */
+
+  /* Stil an die Karten angepasst */
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Hellere, dezentere Border */
+  background-color: #1f2937;
+  color: #fff;
+
+  width: 100%;
+  max-width: 500px; /* Erhöhte maximale Breite für größere Erscheinung */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35);
+}
+
+.rarity-select {
+  /* Stil an das search-input angepasst */
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #1f2937;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 1rem;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+}
+
+.rarity-select:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35);
+}
+
+
+/* Floating Badge oben rechts */
+.essence-badge {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: radial-gradient(120% 120% at 30% 30%, #1c212b 0%, #0e121a 70%);
+  border: 1px solid rgba(255, 156, 43, 0.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 0 12px rgba(255, 156, 43, 0.22);
+  color: #cfe9ff;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* Icon im Stil von LoL-Essenz (vereinfachtes, CSS-basiertes Emblem) */
+.essence-icon {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(135deg, #ffcc66 0%, #ff9c2b 50%, #ff7a00 100%);
+  clip-path: polygon(50% 0%, 85% 25%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 15% 25%);
+  box-shadow: 0 0 8px rgba(255, 200, 0, 0.7), inset 0 0 6px rgba(200, 200, 0, 0.35);
+}
+.essence-icon::before,
+.essence-icon::after {
+  /* entweder komplett entfernen: */
+  /* content: none; */
+
+  /* oder auf helle Highlights umstellen: */
+  background:
+    radial-gradient(circle at 40% 30%, rgba(255, 245, 200, 0.7), rgba(255, 245, 200, 0) 55%),
+    radial-gradient(circle at 70% 70%, rgba(255, 205, 120, 0.35), rgba(255, 205, 120, 0) 60%) !important;
+  mix-blend-mode: normal !important;
+  filter: none !important;
+}
+.essence-value {
+  font-size: 14px;
+  text-shadow: 0 0 6px rgba(0, 200, 255, 0.5);
+}
+
+/* Optional: responsiv etwas kleiner */
+@media (max-width: 480px) {
+  .essence-badge {
+    top: 12px;
+    right: 12px;
+    padding: 6px 10px;
+  }
+  .essence-icon {
+    width: 16px;
+    height: 16px;
+  }
+  .essence-value {
+    font-size: 13px;
+  }
+}
+
+.result-count {
+  text-align: center;
+  white-space: nowrap;
+  padding: 6px 10px;
+  padding-top: 0;
+  border-radius: 8px;
+  color: gray;
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+
+.video-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.video-play {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 156, 43, 0.35);
+  background: rgba(255, 156, 43, 0.15);
+  color: #ffe7b3;
+  font-weight: 600;
+  cursor: pointer;
+}
+.video-play:hover:enabled {
+  background: rgba(255, 156, 43, 0.25);
+}
+.video-play:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.video-fallback {
+  color: #9ecbff;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(158, 203, 255, 0.5);
+}
+.video-fallback:hover {
+  color: #cfe6ff;
+}
+
+.video-embed {
+  margin-top: 12px;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 720px;
+}
+.video-embed iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.image-header {
+  background-color: white;
+  text-align: center;
+}
+
+.image-header h2 {
+  margin-bottom: 0;
+  padding-top: 0.3rem;
+}
+
+.image-header .rarity {
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+}
+
+.img-wrapper {
+  position: relative;
+  height: 100%
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 24px;
+  line-height: 0;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1002;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.nav-arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+.nav-left {
+  left: 10px;
+}
+.nav-right {
+  right: 10px;
+}
+
+.rarity-legendary {
+  color: #ef4444; /* rötlich */
+  text-shadow: 0 0 6px rgba(239, 68, 68, 0.35);
+}
+
+.rarity-epic {
+  color: #3b82f6; /* bläulich */
+  text-shadow: 0 0 6px rgba(59, 130, 246, 0.35);
+}
+
+.rarity-default {
+  color: #6b7280; /* grau */
+}
