@@ -6,17 +6,17 @@
 
 <div class="header">
   <div>
-  <div class="search-container">
-  <input type="text"
-         placeholder="Search Champions..."
-         [(ngModel)]="searchTerm"
-         class="search-input">
-    <select [(ngModel)]="rarityFilter" class="rarity-select">
-      @for (rarity of rarities; track rarity) {
-        <option [value]="rarity === 'All' ? '' : rarity">{{ rarity }}</option>
-      }
-    </select>
-  </div>
+    <div class="search-container">
+      <input type="text"
+             placeholder="Search Champions..."
+             [(ngModel)]="searchTerm"
+             class="search-input">
+      <select [(ngModel)]="rarityFilter" class="rarity-select">
+        @for (rarity of rarities; track rarity) {
+          <option [value]="rarity === 'All' ? '' : rarity">{{ rarity }}</option>
+        }
+      </select>
+    </div>
     <div class="result-count" aria-live="polite">
       {{ filteredSkins.length }} Skinshards
     </div>
@@ -28,7 +28,8 @@
     <div class="card" [class.wanted]="skin.wanted">
       <div class="img-wrapper">
         @if (skin.imageUrl) {
-          <img [src]="'http://localhost:8080' + skin.imageUrl" [alt]="skin.itemName || skin.championName" (click)="openModal(skin.imageUrl, skin)"/>
+          <img [src]="'http://localhost:8080' + skin.imageUrl" [alt]="skin.itemName || skin.championName"
+               (click)="openModal(skin.imageUrl, skin)"/>
         } @else {
           <div class="placeholder">no image</div>
         }
@@ -37,7 +38,7 @@
       <div class="info">
         <h3>{{ skin.itemName || 'Skin' }}</h3>
         <p class="champion">{{ skin.championName }}</p>
-        <p class="rarity">{{ skin.rarity }}</p>
+        <p class="rarity"  [ngClass]="skin.rarity.toLocaleLowerCase()" >{{ skin.rarity }}</p>
 
         <div class="values">
           @if (skin.disenchantValue) {
@@ -68,11 +69,7 @@
       <div class="image-header">
         <h2>{{ selectedSkin?.itemName || 'Skin' }}</h2>
         <p class="rarity"
-           [ngClass]="{
-             'rarity-legendary': (selectedSkin?.rarity || '').toUpperCase() === 'LEGENDARY',
-             'rarity-epic': (selectedSkin?.rarity || '').toUpperCase() === 'EPIC',
-             'rarity-default': (selectedSkin?.rarity || '').toUpperCase() === 'DEFAULT'
-           }">
+           [ngClass]="selectedSkin?.rarity?.toLocaleLowerCase()">
           {{ selectedSkin?.rarity }}
         </p>
         <div class="img-wrapper">

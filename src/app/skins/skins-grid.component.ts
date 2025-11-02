@@ -19,7 +19,7 @@ export class SkinsGridComponent implements OnInit {
   isModalOpen = false;
   searchTerm: string = '';
   rarityFilter: string = '';
-  rarities: string[] = ['All', 'EPIC', 'LEGENDARY', 'DEFAULT'];
+  rarities: string[] = ['All', 'ULTIMATE', 'EPIC', 'LEGENDARY', 'DEFAULT'];
   selectedSkin: SkinShard | null = null;
   youtubeUrl: SafeResourceUrl | null = null;
   selectedIndex: number = -1;

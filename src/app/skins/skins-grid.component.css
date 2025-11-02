@@ -410,16 +410,21 @@ h2 {
   right: 10px;
 }
 
-.rarity-legendary {
-  color: #ef4444; /* rötlich */
+.rarity-ultimate, .rarity.ultimate {
+  color: #ef9c44 !important;
   text-shadow: 0 0 6px rgba(239, 68, 68, 0.35);
 }
 
-.rarity-epic {
-  color: #3b82f6; /* bläulich */
+.rarity-legendary , .rarity.legendary{
+  color: #ef4444 !important;
+  text-shadow: 0 0 6px rgba(239, 68, 68, 0.35);
+}
+
+.rarity-epic, .rarity.epic {
+  color: #3b82f6 !important;
   text-shadow: 0 0 6px rgba(59, 130, 246, 0.35);
 }
 
-.rarity-default {
-  color: #6b7280; /* grau */
+.rarity-default, .rarity.default {
+  color: #6b7280 !important;
 }
