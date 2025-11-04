@@ -23,6 +23,8 @@ export class SkinsGridComponent implements OnInit {
   selectedSkin: SkinShard | null = null;
   youtubeUrl: SafeResourceUrl | null = null;
   selectedIndex: number = -1;
+  hideOwned = false;
+
 
 
   constructor(private skinService: SkinShardService, private cdr: ChangeDetectorRef, private sanitizer: DomSanitizer) {
@@ -84,6 +86,10 @@ export class SkinsGridComponent implements OnInit {
       filtered = filtered.filter(s => (s.rarity || '').toUpperCase() === rarity);
     }
 
+    if (this.hideOwned) {
+      filtered = filtered.filter(s => !this.hasOwned(s));
+    }
+
     return [...filtered].sort(this.sortFn.bind(this));
   }
 
@@ -91,6 +97,10 @@ export class SkinsGridComponent implements OnInit {
   closeModal(): void {
     this.isModalOpen = false;
     this.selectedImageUrl = null;
+  }
+
+  hasOwned(s: SkinShard): boolean {
+    return (s as any).ownsAnySKinForChampion ?? (s as any).ownsAnySkinForChampion ?? false;
   }
 
   toggleWanted(skin: SkinShard): void {

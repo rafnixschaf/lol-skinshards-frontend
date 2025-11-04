@@ -9,4 +9,5 @@ export interface SkinShard {
   value: number | null;
   wanted: boolean;
   imageUrl?: string;
+  ownsAnySKinForChampion: boolean;
 }

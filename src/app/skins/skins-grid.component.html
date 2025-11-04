@@ -16,6 +16,12 @@
           <option [value]="rarity === 'All' ? '' : rarity">{{ rarity }}</option>
         }
       </select>
+      <label class="toggle hide-owned-toggle" title="hide champions with owned skins">
+      <input type="checkbox" [(ngModel)]="hideOwned">
+      <span class="slider"></span>
+      <span class="toggle-text">Hide owned</span>
+    </label>
+
     </div>
     <div class="result-count" aria-live="polite">
       {{ filteredSkins.length }} Skinshards
@@ -27,6 +33,13 @@
   @for (skin of filteredSkins; track skin.id) {
     <div class="card" [class.wanted]="skin.wanted">
       <div class="img-wrapper">
+        @if(hasOwned(skin)) {
+        <div class="owned-badge"
+             aria-label="You own a skin for this champion"
+             title="You own a skin for this champion">
+          ✓
+        </div>
+        }
         @if (skin.imageUrl) {
           <img [src]="'http://localhost:8080' + skin.imageUrl" [alt]="skin.itemName || skin.championName"
                (click)="openModal(skin.imageUrl, skin)"/>
