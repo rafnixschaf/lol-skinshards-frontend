@@ -24,6 +24,7 @@ export class SkinsGridComponent implements OnInit {
   youtubeUrl: SafeResourceUrl | null = null;
   selectedIndex: number = -1;
   hideOwned = false;
+  currencyCosmetic = 0;
 
 
 
@@ -53,7 +54,12 @@ export class SkinsGridComponent implements OnInit {
   ngOnInit(): void {
     this.skinService.getSkins().subscribe({
       next: (data) => {
-        this.allSkins = Array.isArray(data) ? data.slice().filter(s => s.championName != 'Unknown') : [];
+        if(Array.isArray(data)) {
+          this.allSkins = data.slice().filter(s => s.championName != 'Unknown');
+          this.currencyCosmetic = data.filter(s => s.asset == 'currency_cosmetic').reduce((sum, s) => sum + (s.count || 0), 0);
+
+        }
+
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -93,6 +99,9 @@ export class SkinsGridComponent implements OnInit {
     return [...filtered].sort(this.sortFn.bind(this));
   }
 
+  get rerollCount(): number {
+    return Math.floor(this.allSkins.filter(s => !s.wanted && !s.sell).length /3);
+  }
 
   closeModal(): void {
     this.isModalOpen = false;
@@ -124,10 +133,53 @@ export class SkinsGridComponent implements OnInit {
     });
   }
 
+  toggleSell(skin: SkinShard): void {
+    const previous = skin.sell;
+    const nextVal = !previous;
+
+    skin.sell = nextVal;
+    this.cdr.markForCheck();
+
+    this.skinService.setSell(skin.id, nextVal).subscribe({
+      next: (updated) => {
+        skin.sell = updated.sell;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error(err);
+        // Rollback
+        skin.sell = previous;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  toggleReroll(skin: SkinShard): void {
+    const previous = skin.reroll;
+    const nextVal = !previous;
+
+    skin.reroll = nextVal;
+    this.cdr.markForCheck();
+
+    this.skinService.setReroll(skin.id, nextVal).subscribe({
+      next: (updated) => {
+        skin.reroll = updated.reroll;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error(err);
+        // Rollback
+        skin.reroll = previous;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
   get totalWantedEssences(): number {
+    var sellValue = this.allSkins.filter(s => s.sell).reduce((sum, s) => sum + (s.disenchantValue || 0), 0);
     return this.allSkins
       .filter(s => s.wanted)
-      .reduce((sum, s) => sum + (s.upgradeEssenceValue || 0), 0);
+      .reduce((sum, s) => sum + (s.upgradeEssenceValue || 0), -sellValue);
   }
 
   private buildSkinSpotlightQuery(skin: SkinShard): string {

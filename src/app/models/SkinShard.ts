@@ -10,4 +10,8 @@ export interface SkinShard {
   wanted: boolean;
   imageUrl?: string;
   ownsAnySKinForChampion: boolean;
+  sell: boolean;
+  reroll: boolean;
+  asset: string;
+  count: number;
 }

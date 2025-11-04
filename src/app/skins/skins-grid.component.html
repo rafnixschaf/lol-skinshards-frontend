@@ -1,8 +1,16 @@
-<div class="essence-badge" title="Total cost">
+<div class="badge essence" title="Total cost">
   <span class="essence-icon"></span>
-  <span class="essence-value">{{ totalWantedEssences }}</span>
-</div>
+  <span class="essence-value">{{ currencyCosmetic - totalWantedEssences }}</span>
 
+
+
+</div>
+<div class="badge reroll" title="Total reroll">
+  <span class="reroll-icon"></span>
+   <span class="reroll-value">
+    {{ rerollCount }}
+  </span>
+</div>
 
 <div class="header">
   <div>
@@ -17,10 +25,10 @@
         }
       </select>
       <label class="toggle hide-owned-toggle" title="hide champions with owned skins">
-      <input type="checkbox" [(ngModel)]="hideOwned">
-      <span class="slider"></span>
-      <span class="toggle-text">Hide owned</span>
-    </label>
+        <input type="checkbox" [(ngModel)]="hideOwned">
+        <span class="slider"></span>
+        <span class="toggle-text">Hide owned</span>
+      </label>
 
     </div>
     <div class="result-count" aria-live="polite">
@@ -33,12 +41,12 @@
   @for (skin of filteredSkins; track skin.id) {
     <div class="card" [class.wanted]="skin.wanted">
       <div class="img-wrapper">
-        @if(hasOwned(skin)) {
-        <div class="owned-badge"
-             aria-label="You own a skin for this champion"
-             title="You own a skin for this champion">
-          ✓
-        </div>
+        @if (hasOwned(skin)) {
+          <div class="owned-badge"
+               aria-label="You own a skin for this champion"
+               title="You own a skin for this champion">
+            ✓
+          </div>
         }
         @if (skin.imageUrl) {
           <img [src]="'http://localhost:8080' + skin.imageUrl" [alt]="skin.itemName || skin.championName"
@@ -51,7 +59,7 @@
       <div class="info">
         <h3>{{ skin.itemName || 'Skin' }}</h3>
         <p class="champion">{{ skin.championName }}</p>
-        <p class="rarity"  [ngClass]="skin.rarity.toLocaleLowerCase()" >{{ skin.rarity }}</p>
+        <p class="rarity" [ngClass]="skin.rarity.toLocaleLowerCase()">{{ skin.rarity }}</p>
 
         <div class="values">
           @if (skin.disenchantValue) {
@@ -66,9 +74,26 @@
         </div>
       </div>
 
-      <button type="button" (click)="toggleWanted(skin)">
-        Want to buy
-      </button>
+      <div class="action-group" role="group" aria-label="Choose action">
+        <button type="button" (click)="toggleWanted(skin)"
+                class="action-btn wanted"
+                [class.active]="skin.wanted"
+                [attr.aria-pressed]="skin.wanted">
+          buy
+        </button>
+        <button type="button" (click)="toggleReroll(skin)"
+                class="action-btn reroll"
+                [class.active]="skin.reroll"
+                [attr.aria-pressed]="skin.reroll">
+          reroll
+        </button>
+        <button type="button" (click)="toggleSell(skin)"
+                class="action-btn sell"
+                [class.active]="skin.sell"
+                [attr.aria-pressed]="skin.sell">
+          sell
+        </button>
+      </div>
     </div>
   }
 </div>

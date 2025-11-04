@@ -103,9 +103,7 @@ button {
   font-size: 0.8rem;
 }
 
-.card.wanted button {
-  background: #10b981;
-}
+
 
 button:hover {
   background: #4b5563;
@@ -244,7 +242,7 @@ h2 {
 
 
 /* Floating Badge oben rechts */
-.essence-badge {
+.badge {
   position: fixed;
   top: 16px;
   right: 16px;
@@ -261,6 +259,9 @@ h2 {
   font-weight: 700;
   letter-spacing: 0.3px;
 }
+
+.badge.essence {   top: 16px; }
+.badge.reroll {   top: 55px; }
 
 /* Icon im Stil von LoL-Essenz (vereinfachtes, CSS-basiertes Emblem) */
 .essence-icon {
@@ -287,6 +288,22 @@ h2 {
 .essence-value {
   font-size: 14px;
   text-shadow: 0 0 6px rgba(0, 200, 255, 0.5);
+}
+
+.reroll-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: .35rem;
+  margin-right: .15rem;
+  vertical-align: -2px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M18 13a6 6 0 1 1-6-6v2l4-3-4-3v2a8 8 0 1 0 8 8h-2z'/></svg>");
+}
+.reroll-value {
+  font-weight: 600;
+  opacity: .9;
 }
 
 /* Optional: responsiv etwas kleiner */
@@ -492,3 +509,46 @@ h2 {
   color: #2d6a2e;
   border: 1px solid rgba(76, 175, 80, .35);
 }
+
+.action-group {
+  display: flex;
+
+  margin-top: .75rem;
+}
+
+.action-btn {
+  flex: 1 1 0;
+  padding: .5rem .75rem;
+
+  border: 1px solid var(--border-weak, rgba(255,255,255,.15));
+  background: var(--btn-bg, rgba(255,255,255,.05));
+  color: var(--text, #fff);
+  font-weight: 600;
+  letter-spacing: .2px;
+  transition: transform .05s ease, background .2s ease, border-color .2s ease;
+}
+.action-btn:active { transform: translateY(1px); }
+
+.action-btn.wanted.active {
+  background: rgba(76, 175, 80, .18);
+  border-color: rgba(76, 175, 80, .6);
+}
+.action-btn.reroll.active {
+  background: rgba(59, 130, 246, .18);
+  border-color: rgba(59, 130, 246, .6);
+}
+.action-btn.sell.active {
+  background: rgba(244, 63, 94, .18);
+  border-color: rgba(244, 63, 94, .6);
+}
+
+/* leichtes Hover-Feedback */
+.action-btn:hover {
+  background: rgba(255,255,255,.08);
+}
+
+/* Karte kann optional visuell je nach Entscheidung variieren */
+.card.wanted { /* buy */
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, .35);
+}
+.card :is(.buy,.reroll,.sell).active { /* already covered above; keep for clarity */ }

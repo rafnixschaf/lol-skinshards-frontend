@@ -18,4 +18,12 @@ export class SkinShardService {
     return this.http.patch<SkinShard>(`${this.baseUrl}/${id}/wanted?value=${value}`, {});
   }
 
+  setReroll(id: number, value: boolean): Observable<SkinShard> {
+    return this.http.patch<SkinShard>(`${this.baseUrl}/${id}/reroll?value=${value}`, {});
+  }
+
+  setSell(id: number, value: boolean): Observable<SkinShard> {
+    return this.http.patch<SkinShard>(`${this.baseUrl}/${id}/sell?value=${value}`, {});
+  }
+
 }
